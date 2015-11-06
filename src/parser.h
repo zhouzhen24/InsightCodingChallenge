@@ -20,7 +20,6 @@
 using namespace rapidjson;
 
 void parser(string js, Tweet& tweet, string name1, string name2){
-
 	Document d;
 	d.Parse(js.c_str());
 
@@ -46,7 +45,26 @@ void parser(string js, Tweet& tweet, string name1, string name2){
 		tweet.value2.clear();
 }
 
+bool isUnicode (char c) {
+    return !(c>=0 && c <128);
+}
 
+
+bool cleanUnicode(string& s){
+	size_t old_length = s.size();
+	s.erase(remove_if(s.begin(),s.end(), isUnicode), s.end());
+	bool hasUnicode = old_length != s.size();
+	return hasUnicode;
+}
+
+void cleanEscape(string& s){
+	if(s.empty() || s.size() <= 1)
+		return;
+	for(size_t i = 0; i < s.size(); i++){
+		if(s[i] == '\n' || s[i] == '\t')
+			s[i] = ' ';
+	}
+}
 
 
 
