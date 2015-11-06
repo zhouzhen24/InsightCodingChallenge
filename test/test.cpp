@@ -13,11 +13,11 @@
 TEST(TweetFeatureOne, parser){
 	Tweet t;
 	string line;
-	char* inputPath = "tweet_input/tweets.txt";
+	char* inputPath = "tweet_input/test1.txt";
 	ifstream input_file(inputPath);
 	ASSERT_TRUE(input_file);
 
-	char* outputPath = "tweet_output/ft1.txt";
+	char* outputPath = "tweet_output/parse_raw.txt";
 	ofstream output_file(outputPath);
 	ASSERT_TRUE(output_file);
 
@@ -40,7 +40,7 @@ TEST(TweetFeatureOne, parser){
 TEST(TweetFeatureOne, clean_tweet_text){
 	Tweet t;
 	string line;
-	char* inputPath = "tweet_input/tweets.txt";
+	char* inputPath = "tweet_input/test2.txt";
 	ifstream input_file(inputPath);
 	ASSERT_TRUE(input_file);
 
@@ -108,7 +108,7 @@ int main(int argc, char** argv){
 //	return RUN_ALL_TESTS();
 	string inputName = "tweets.txt";
 	string outputName = "ft1.txt";
-
+	featureOne(inputName, outputName);
 	return 0;
 }
 

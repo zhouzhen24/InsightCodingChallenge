@@ -25,8 +25,6 @@ bool featureOne(string inputName, string outputName){
 	int line_no = 1;
 	int unicode_no = 0;
 	while(getline(input_file, line)){
-		if(!(line_no >= 1 && line_no <= 1000))
-			break;
 		parser(line, t, "text", "created_at");
 		string raw = t.value1;
 		if(cleanUnicode(t.value1))
