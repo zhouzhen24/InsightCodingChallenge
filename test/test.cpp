@@ -8,9 +8,12 @@
 #include "gtest/gtest.h"
 #include "parser.h"
 #include "FeatureOne.h"
+#include "parser2.h"
+#include "Tweet2.h"
+
 #include <stdio.h>
 
-TEST(TweetFeatureOne, parser){
+TEST(TweetFeatureOne, DISABLED_parser){
 	Tweet t;
 	string line;
 	char* inputPath = "tweet_input/test1.txt";
@@ -37,7 +40,7 @@ TEST(TweetFeatureOne, parser){
 }
 
 
-TEST(TweetFeatureOne, clean_tweet_text){
+TEST(TweetFeatureOne, DISABLED_clean_tweet_text){
 	Tweet t;
 	string line;
 	char* inputPath = "tweet_input/test2.txt";
@@ -71,7 +74,7 @@ TEST(TweetFeatureOne, clean_tweet_text){
 }
 
 
-TEST(TweetFeatureOne, Full_Functional){
+TEST(TweetFeatureOne, DISABLED_Full_Functional){
 	Tweet t;
 	string line;
 	char* inputPath = "tweet_input/tweets.txt";
@@ -102,14 +105,45 @@ TEST(TweetFeatureOne, Full_Functional){
 	output_file.close();
 }
 
+TEST(TweetFeatureTwo, parser2){
+	Tweet2 t;
+	string line;
+	char* inputPath = "tweet_input/tweets.txt";
+	ifstream input_file(inputPath);
+	ASSERT_TRUE(input_file);
+
+	char* outputPath = "tweet_output/raw2.txt";
+	ofstream output_file(outputPath);
+	ASSERT_TRUE(output_file);
+
+	int line_no = 1;
+	while(getline(input_file, line)){
+		if(!(line_no >= 1 && line_no <= 50))
+			break;
+//		printf("Line %5d\n", line_no);
+//		printf("line :%s\n", line.c_str());
+		parser2(line, t);
+//		printf("Tweet Time: %ld\n", t.timestamp_ms);
+//		for(size_t i = 0; i < t.hashtags.size(); i++)
+//			printf("#%s ", t.hashtags[i].c_str());
+//		printf("\n");
+		line_no++;
+	}
+
+	input_file.close();
+	output_file.close();
+
+}
+
+
 
 int main(int argc, char** argv){
-//	::testing::InitGoogleTest(&argc, argv);
-//	return RUN_ALL_TESTS();
-	string inputName = "tweets.txt";
-	string outputName = "ft1.txt";
-	featureOne(inputName, outputName);
-	return 0;
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+//	string inputName = "tweets.txt";
+//	string outputName = "ft1.txt";
+//	featureOne(inputName, outputName);
+//	return 0;
 }
 
 

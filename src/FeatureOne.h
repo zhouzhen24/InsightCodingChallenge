@@ -39,8 +39,6 @@ bool featureOne(string inputName, string outputName){
 	output_file << "\n" << unicode_no << " tweets contained unicode.";
 	output_file.close();
 
-
-
 	return true;
 }
 

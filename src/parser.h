@@ -46,14 +46,14 @@ void parser(string js, Tweet& tweet, string name1, string name2){
 }
 
 bool isUnicode (char c) {
-    return !(c>=0 && c <128);
+    return !(c >= 0 && c < 128);
 }
 
 
 bool cleanUnicode(string& s){
 	size_t old_length = s.size();
 	s.erase(remove_if(s.begin(),s.end(), isUnicode), s.end());
-	bool hasUnicode = old_length != s.size();
+	bool hasUnicode = (old_length != s.size());
 	return hasUnicode;
 }
 
