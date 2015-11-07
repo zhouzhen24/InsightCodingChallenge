@@ -133,10 +133,6 @@ TEST(TweetFeatureTwo, DISABLED_parser2){
 //		printf("line :%s\n", line.c_str());
 		parser2(line, t);
 
-
-//		if(t.hashtags.empty())
-//			continue;
-		//if only one hashtage
 		if(!t.hashtags.empty() && t.hashtags.size() == 1){
 			string message = t.hashtags.front();
 			if(allHashtags.find(message) != allHashtags.end())
@@ -210,7 +206,7 @@ int main(int argc, char** argv){
 //	featureOne(inputName, outputName);
 //	return 0;
 
-		string inputName = "test3.txt";
+		string inputName = "test4.txt";
 		string outputName = "raw2.txt";
 		featureTwo(inputName, outputName);
 		return 0;

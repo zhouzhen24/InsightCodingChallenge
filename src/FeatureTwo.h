@@ -60,10 +60,14 @@ bool featureTwo(string inputName, string outputName){
 				allHashtags.insert(make_pair(message, ht));
 			}
 		}
+
 		//if we have edges
 		else if (!t.hashtags.empty()){
 			vector<pair<string, string> > pairs;
 			t.convertToPairs(pairs);
+			for(pair<string, string> p : pairs)
+				printf("#%s <-> #%s | ", p.first.c_str(), p.second.c_str());
+			printf("\n");
 			for(pair<string, string> p : pairs){
 				unordered_map<string, Hashtag*>::iterator it1 = allHashtags.find(p.first), it2 = allHashtags.find(p.second);
 				Hashtag *ht1, *ht2;
@@ -94,16 +98,18 @@ bool featureTwo(string inputName, string outputName){
 			}
 
 		}
-		printf("Line %d\n", line_no);
+		//printf("Line %d\n", line_no);
 		printf("Hashtags: \n");
 		for(unordered_map<string, Hashtag*>::iterator ht = allHashtags.begin(); ht != allHashtags.end(); ht++)
 			printf("#%s ", ht->second->text.c_str());
 		printf("\nEdges :\n");
 		for(Edge* e : allEdges)
 			printf("#%s <-> #%s\n", e->hashtags[0]->text.c_str(), e->hashtags[1]->text.c_str());
+
+		//compute degree
+//		double degree = (double)allHashtags.size() / (double)allEdges.size();
+		printf("%u hashtags, %u edges\n", allHashtags.size(), allEdges.size());
 		printf("\n");
-		double degree = (double)allHashtags.size() / (double)allEdges.size();
-		printf("%d hashtags, %d edges\n%d Degree\n", allHashtags.size(), allEdges.size(), degree);
 	}
 	for(Edge* e : allEdges)
 		delete e;
