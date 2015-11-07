@@ -206,7 +206,7 @@ int main(int argc, char** argv){
 //	featureOne(inputName, outputName);
 //	return 0;
 
-		string inputName = "test4.txt";
+		string inputName = "tweets.txt";
 		string outputName = "raw2.txt";
 		featureTwo(inputName, outputName);
 		return 0;

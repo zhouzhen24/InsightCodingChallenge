@@ -21,6 +21,7 @@ bool featureTwo(string inputName, string outputName){
 	inputName = "tweet_input/" + inputName;
 	outputName = "tweet_output/" + outputName;
 	string line;
+	size_t degree = 0;
 	unordered_map<string, Hashtag*> allHashtags;
 	vector<Edge*> allEdges;
 
@@ -107,9 +108,8 @@ bool featureTwo(string inputName, string outputName){
 			printf("#%s <-> #%s\n", e->hashtags[0]->text.c_str(), e->hashtags[1]->text.c_str());
 
 		//compute degree
-//		double degree = (double)allHashtags.size() / (double)allEdges.size();
-		printf("%u hashtags, %u edges\n", allHashtags.size(), allEdges.size());
-		printf("\n");
+		double degree = (double)allHashtags.size() / (double)allEdges.size() / 2;
+		printf("%u hashtags, %u edges\nAverage degree : %f\n", allHashtags.size(), allEdges.size(), degree);
 	}
 	for(Edge* e : allEdges)
 		delete e;
