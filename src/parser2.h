@@ -56,19 +56,23 @@ bool parser2(string js, Tweet2& tweet){
 
 void maintainDataInWindow(long int time, unordered_map<string, Hashtag*>& hashtags, list<Edge*>& edges){
 	//delete edges
-	for(list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++){
+	for(list<Edge*>::iterator it = edges.begin(); it != edges.end();){
 		if((time - (*it)->time) > window_size){
 			delete (*it);
-			edges.erase(it);
+			it = edges.erase(it);
 		}
+		else
+			it++;
 	}
 
 	//delete hashtags
-	for(unordered_map<string, Hashtag*>::iterator it = hashtags.begin(); it != hashtags.end(); it++){
+	for(unordered_map<string, Hashtag*>::iterator it = hashtags.begin(); it != hashtags.end();){
 		if((time - it->second->time) > window_size){
 					delete (it->second);
-					hashtags.erase(it);
+					it = hashtags.erase(it);
 		}
+		else
+			it++;
 	}
 
 }
