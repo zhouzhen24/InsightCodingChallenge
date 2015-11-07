@@ -14,24 +14,28 @@
 
 #include <assert.h>
 #include <unordered_map>
+#include <queue>
 
 using namespace std;
+
+#define window_size 60*1000//timestamp unit: ms
 
 bool featureTwo(string inputName, string outputName){
 	inputName = "tweet_input/" + inputName;
 	outputName = "tweet_output/" + outputName;
 	string line;
-	size_t degree = 0;
+	Tweet2 t;
 	unordered_map<string, Hashtag*> allHashtags;
 	vector<Edge*> allEdges;
 
 
 	ifstream input_file(inputName.c_str());
-//	if(!input_file){
-//		printf("Warning! cannot read input file\n");
-//	}
-//	else
-//		printf("Read input file\n");
+	if(!input_file){
+		printf("Warning! cannot read input file\n");
+		return false;
+	}
+	else
+		printf("Read input file\n");
 
 	assert(input_file);
 
@@ -41,16 +45,21 @@ bool featureTwo(string inputName, string outputName){
 
 
 	for(int line_no = 1; getline(input_file, line); line_no++){
-		if(!(line_no >= 1 && line_no <= 50))
-			break;
+//		if(!(line_no >= 1 && line_no <= 50))
+//			break;
 		printf("Line %5d\n", line_no);
-		printf("line :%s\n", line.c_str());
+//		printf("line :%s\n", line.c_str());
 
-		Tweet2 t;
-		parser2(line, t);
 
-	//		if(t.hashtags.empty())
-	//			continue;
+		if(!parser2(line, t)){
+			printf("parser fail\n");
+			continue;
+		}
+
+		if(t.hashtags.empty()){
+			printf("no hashtags\n");
+			continue;
+		}
 		//if only one hashtage
 		if(!t.hashtags.empty() && t.hashtags.size() == 1){
 			string message = t.hashtags.front();
@@ -60,6 +69,7 @@ bool featureTwo(string inputName, string outputName){
 				Hashtag* ht = new Hashtag(t.timestamp_ms, message);
 				allHashtags.insert(make_pair(message, ht));
 			}
+			printf("#%s\n", message.c_str());
 		}
 
 		//if we have edges
@@ -100,16 +110,16 @@ bool featureTwo(string inputName, string outputName){
 
 		}
 		//printf("Line %d\n", line_no);
-		printf("Hashtags: \n");
-		for(unordered_map<string, Hashtag*>::iterator ht = allHashtags.begin(); ht != allHashtags.end(); ht++)
-			printf("#%s ", ht->second->text.c_str());
-		printf("\nEdges :\n");
-		for(Edge* e : allEdges)
-			printf("#%s <-> #%s\n", e->hashtags[0]->text.c_str(), e->hashtags[1]->text.c_str());
+//		printf("Hashtags: \n");
+//		for(unordered_map<string, Hashtag*>::iterator ht = allHashtags.begin(); ht != allHashtags.end(); ht++)
+//			printf("#%s ", ht->second->text.c_str());
+//		printf("\nEdges :\n");
+//		for(Edge* e : allEdges)
+//			printf("#%s <-> #%s\n", e->hashtags[0]->text.c_str(), e->hashtags[1]->text.c_str());
 
 		//compute degree
-		double degree = (double)allHashtags.size() / (double)allEdges.size() / 2;
-		printf("%u hashtags, %u edges\nAverage degree : %f\n", allHashtags.size(), allEdges.size(), degree);
+		double degree = (double)allHashtags.size() / (double)allEdges.size() / 2.0;
+		printf("%lu hashtags, %lu edges\nAverage degree : %f\n", allHashtags.size(), allEdges.size(), degree);
 	}
 	for(Edge* e : allEdges)
 		delete e;
@@ -118,6 +128,7 @@ bool featureTwo(string inputName, string outputName){
 	input_file.close();
 	output_file.close();
 
+	printf("End of Feature 2\n");
 
 	return true;
 }

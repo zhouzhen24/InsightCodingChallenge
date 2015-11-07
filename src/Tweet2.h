@@ -20,7 +20,8 @@ struct Tweet2{
 	void convertToPairs(vector<pair<string, string> > &pairs){
 		for(size_t i = 0; i < hashtags.size(); i++)
 			for(size_t j = i + 1; j < hashtags.size(); j++)
-				pairs.push_back(make_pair(hashtags[i], hashtags[j]));
+				if(hashtags[i] != hashtags[j])
+					pairs.push_back(make_pair(hashtags[i], hashtags[j]));
 	}
 };
 

@@ -206,9 +206,10 @@ int main(int argc, char** argv){
 //	featureOne(inputName, outputName);
 //	return 0;
 
-		string inputName = "tweets.txt";
+		string inputName = "test3.txt";
 		string outputName = "raw2.txt";
-		featureTwo(inputName, outputName);
+		if(!featureTwo(inputName, outputName))
+			printf("Feature 2 failed\n");
 		return 0;
 }
 

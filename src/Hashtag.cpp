@@ -48,6 +48,7 @@ Edge* Hashtag::getEdge(Hashtag* otherHt){
 Edge::~Edge(){
 	for(Hashtag* ht : hashtags){
 		ht->removeEdge(this);
+		delete ht;
 	}
 }
 

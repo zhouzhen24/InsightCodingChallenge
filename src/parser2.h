@@ -19,7 +19,7 @@
 using namespace std;
 using namespace rapidjson;
 
-void parser2(string js, Tweet2& tweet){
+bool parser2(string js, Tweet2& tweet){
 	tweet.hashtags.clear();
 
 	Document d;
@@ -28,7 +28,10 @@ void parser2(string js, Tweet2& tweet){
 	assert(d.IsObject());
 
 	//add timestamp_ms
-	assert(d.HasMember("timestamp_ms"));
+	if(!d.IsObject() || !d.HasMember("timestamp_ms") || !d["timestamp_ms"].IsString() || !d.HasMember("entities")){
+		printf("Cannot read this Tweet\n");
+		return false;
+	}
 	assert(d["timestamp_ms"].IsString());
 	string tmp = d["timestamp_ms"].GetString();
 	//printf("timestamp_ms: %s\n", tmp.c_str());
@@ -39,18 +42,8 @@ void parser2(string js, Tweet2& tweet){
 	for (SizeType i = 0; i < hts.Size(); i++)
 		tweet.hashtags.push_back(hts[i]["text"].GetString());
 
-
+	return true;
 }
-
-//Edge* getConnect(Hashtag* ht1, Hashtag* ht2){
-//	for(Edge* e : ht1->edges){
-//		if(e->hashtags.front()->text == ht2->text
-//				|| e->hashtags.back()->text == ht2->text)
-//			return e;
-//	}
-//	return NULL;
-//}
-
 
 
 #endif /* SRC_PARSER2_H_ */
