@@ -31,7 +31,7 @@ void parser2(string js, Tweet2& tweet){
 	assert(d.HasMember("timestamp_ms"));
 	assert(d["timestamp_ms"].IsString());
 	string tmp = d["timestamp_ms"].GetString();
-	printf("timestamp_ms: %s\n", tmp.c_str());
+	//printf("timestamp_ms: %s\n", tmp.c_str());
 	tweet.timestamp_ms = atol(tmp.c_str());
 
 	Value& hts = d["entities"]["hashtags"];
@@ -41,6 +41,15 @@ void parser2(string js, Tweet2& tweet){
 
 
 }
+
+//Edge* getConnect(Hashtag* ht1, Hashtag* ht2){
+//	for(Edge* e : ht1->edges){
+//		if(e->hashtags.front()->text == ht2->text
+//				|| e->hashtags.back()->text == ht2->text)
+//			return e;
+//	}
+//	return NULL;
+//}
 
 
 
