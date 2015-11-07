@@ -119,7 +119,9 @@ bool featureTwo(string inputName, string outputName){
 
 		maintainDataInWindow(t.timestamp_ms, allHashtags, allEdges);
 		//compute degree
-		double degree = (double)allHashtags.size() / (double)allEdges.size() / 2.0;
+		double degree =  0;
+		if(!allEdges.empty())
+			degree = (double)allHashtags.size() / (double)allEdges.size() / 2.0;
 		printf("%lu hashtags, %lu edges\nAverage degree : %f\n", allHashtags.size(), allEdges.size(), degree);
 		output_file << degree << endl;
 	}
