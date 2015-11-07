@@ -10,14 +10,20 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <list>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "Tweet2.h"
+#include "Hashtag.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
 using namespace std;
 using namespace rapidjson;
+
+#define window_size 60*1000//timestamp unit: ms
 
 bool parser2(string js, Tweet2& tweet){
 	tweet.hashtags.clear();
@@ -44,6 +50,32 @@ bool parser2(string js, Tweet2& tweet){
 
 	return true;
 }
+
+
+
+
+void maintainDataInWindow(long int time, unordered_map<string, Hashtag*>& hashtags, list<Edge*>& edges){
+	//delete edges
+	for(list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++){
+		if((time - (*it)->time) > window_size){
+			delete (*it);
+			edges.erase(it);
+		}
+	}
+
+	//delete hashtags
+	for(unordered_map<string, Hashtag*>::iterator it = hashtags.begin(); it != hashtags.end(); it++){
+		if((time - it->second->time) > window_size){
+					delete (it->second);
+					hashtags.erase(it);
+		}
+	}
+
+}
+
+
+
+
 
 
 #endif /* SRC_PARSER2_H_ */

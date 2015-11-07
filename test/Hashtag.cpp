@@ -10,6 +10,7 @@
 
 Hashtag::~Hashtag(){
 	for(Edge* e : edges){
+		printf("Warning delete edge from hashtag\n");
 		e->~Edge();
 	}
 }

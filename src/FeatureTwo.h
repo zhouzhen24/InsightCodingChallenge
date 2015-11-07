@@ -18,7 +18,7 @@
 
 using namespace std;
 
-#define window_size 60*1000//timestamp unit: ms
+
 
 bool featureTwo(string inputName, string outputName){
 	inputName = "tweet_input/" + inputName;
@@ -26,7 +26,7 @@ bool featureTwo(string inputName, string outputName){
 	string line;
 	Tweet2 t;
 	unordered_map<string, Hashtag*> allHashtags;
-	vector<Edge*> allEdges;
+	list<Edge*> allEdges;
 
 
 	ifstream input_file(inputName.c_str());
@@ -47,21 +47,21 @@ bool featureTwo(string inputName, string outputName){
 	for(int line_no = 1; getline(input_file, line); line_no++){
 //		if(!(line_no >= 1 && line_no <= 50))
 //			break;
-		printf("Line %5d\n", line_no);
+//		printf("Line %5d\n", line_no);
 //		printf("line :%s\n", line.c_str());
 
 
 		if(!parser2(line, t)){
-			printf("parser fail\n");
-			continue;
+			printf("line %d: parser fail\n", line_no);
+			//continue;
 		}
 
-		if(t.hashtags.empty()){
-			printf("no hashtags\n");
-			continue;
+		else if(t.hashtags.empty()){
+			printf("line %d: no hashtags\n", line_no);
+//			continue;
 		}
 		//if only one hashtage
-		if(!t.hashtags.empty() && t.hashtags.size() == 1){
+		else if(t.hashtags.size() == 1){
 			string message = t.hashtags.front();
 			if(allHashtags.find(message) != allHashtags.end())
 				allHashtags[message]->updateTime(t.timestamp_ms);
@@ -73,7 +73,7 @@ bool featureTwo(string inputName, string outputName){
 		}
 
 		//if we have edges
-		else if (!t.hashtags.empty()){
+		else {
 			vector<pair<string, string> > pairs;
 			t.convertToPairs(pairs);
 			for(pair<string, string> p : pairs)
@@ -117,9 +117,11 @@ bool featureTwo(string inputName, string outputName){
 //		for(Edge* e : allEdges)
 //			printf("#%s <-> #%s\n", e->hashtags[0]->text.c_str(), e->hashtags[1]->text.c_str());
 
+		maintainDataInWindow(t.timestamp_ms, allHashtags, allEdges);
 		//compute degree
 		double degree = (double)allHashtags.size() / (double)allEdges.size() / 2.0;
 		printf("%lu hashtags, %lu edges\nAverage degree : %f\n", allHashtags.size(), allEdges.size(), degree);
+		output_file << degree << endl;
 	}
 	for(Edge* e : allEdges)
 		delete e;
