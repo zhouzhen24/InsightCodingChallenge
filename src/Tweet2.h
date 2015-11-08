@@ -8,16 +8,16 @@
 #ifndef SRC_TWEET2_H_
 #define SRC_TWEET2_H_
 
-#include<string>
-#include<vector>
+#include <string>
+#include <vector>
+#include <time.h>
 
 using namespace std;
 
 struct Tweet2{
 
-	long int timestamp_ms;
+	time_t timestamp;
 	vector<string> hashtags;
-	string timestamp;
 	void convertToPairs(vector<pair<string, string> > &pairs){
 		for(size_t i = 0; i < hashtags.size(); i++)
 			for(size_t j = i + 1; j < hashtags.size(); j++)

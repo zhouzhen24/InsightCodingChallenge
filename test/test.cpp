@@ -136,9 +136,9 @@ TEST(TweetFeatureTwo, DISABLED_parser2){
 		if(!t.hashtags.empty() && t.hashtags.size() == 1){
 			string message = t.hashtags.front();
 			if(allHashtags.find(message) != allHashtags.end())
-				allHashtags[message]->updateTime(t.timestamp_ms);
+				allHashtags[message]->updateTime(t.timestamp);
 			else{
-				Hashtag* ht = new Hashtag(t.timestamp_ms, message);
+				Hashtag* ht = new Hashtag(t.timestamp, message);
 				allHashtags.insert(make_pair(message, ht));
 			}
 		}
@@ -150,27 +150,27 @@ TEST(TweetFeatureTwo, DISABLED_parser2){
 				unordered_map<string, Hashtag*>::iterator it1 = allHashtags.find(p.first), it2 = allHashtags.find(p.second);
 				Hashtag *ht1, *ht2;
 				if(it1 == allHashtags.end()){
-					ht1 = new Hashtag(t.timestamp_ms, p.first);
+					ht1 = new Hashtag(t.timestamp, p.first);
 					allHashtags.insert(make_pair(p.first, ht1));
 				}
 				else
 					ht1 = it1->second;
 				if(it2 == allHashtags.end()){
-					ht2 = new Hashtag(t.timestamp_ms, p.second);
+					ht2 = new Hashtag(t.timestamp, p.second);
 					allHashtags.insert(make_pair(p.second, ht2));
 				}
 				else
 					ht2 = it2->second;
 
 				//update time
-				ht1->time = t.timestamp_ms;
-				ht2->time = t.timestamp_ms;
+				ht1->time = t.timestamp;
+				ht2->time = t.timestamp;
 				Edge* e = ht1->getEdge(ht2);
 				if(e != NULL){
-					e->updateTime(t.timestamp_ms);
+					e->updateTime(t.timestamp);
 					continue;
 				}
-				e = new Edge(t.timestamp_ms, ht1, ht2);
+				e = new Edge(t.timestamp, ht1, ht2);
 				allEdges.push_back(e);
 
 			}
@@ -196,34 +196,20 @@ TEST(TweetFeatureTwo, DISABLED_parser2){
 
 }
 
-TEST(FeatureTwo, getTimeStampFromString){
-	char* inputPath = "tweet_input/test1.txt";
-	ifstream input_file(inputPath);
-	assert(input_file);
-	string line;
-	if(getline(input_file, line)){
-		Document d;
-		d.Parse(line.c_str());
-		string time = d["created_at"].GetString();
-		dateToStamp(time);
-	}
-
-}
-
 
 int main(int argc, char** argv){
-	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+//	::testing::InitGoogleTest(&argc, argv);
+//	return RUN_ALL_TESTS();
 //	string inputName = "tweets.txt";
 //	string outputName = "ft1.txt";
 //	featureOne(inputName, outputName);
 //	return 0;
 
-//		string inputName = "tweets.txt";
-//		string outputName = "raw2.txt";
-//		if(!featureTwo(inputName, outputName))
-//			printf("Feature 2 failed\n");
-//		return 0;
+		string inputName = "tweets.txt";
+		string outputName = "raw2.txt";
+		if(!featureTwo(inputName, outputName))
+			printf("Feature 2 failed\n");
+		return 0;
 }
 
 

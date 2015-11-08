@@ -56,24 +56,24 @@ bool featureTwo(string inputName, string outputName){
 			//continue;
 		}
 
-		else if(t.hashtags.empty()){
-			printf("line %d: no hashtags\n", line_no);
-//			continue;
-		}
-		//if only one hashtage
-		else if(t.hashtags.size() == 1){
-			string message = t.hashtags.front();
-			if(allHashtags.find(message) != allHashtags.end())
-				allHashtags[message]->updateTime(t.timestamp_ms);
-			else{
-				Hashtag* ht = new Hashtag(t.timestamp_ms, message);
-				allHashtags.insert(make_pair(message, ht));
-			}
-			printf("#%s\n", message.c_str());
-		}
+//		else if(t.hashtags.empty()){
+//			printf("line %d: no hashtags\n", line_no);
+////			continue;
+//		}
+//		//if only one hashtage
+//		else if(t.hashtags.size() == 1){
+//			string message = t.hashtags.front();
+//			if(allHashtags.find(message) != allHashtags.end())
+//				allHashtags[message]->updateTime(t.timestamp_ms);
+//			else{
+//				Hashtag* ht = new Hashtag(t.timestamp_ms, message);
+//				allHashtags.insert(make_pair(message, ht));
+//			}
+//			printf("#%s\n", message.c_str());
+//		}
 
 		//if we have edges
-		else {
+		if(t.hashtags.size() > 1) {
 			vector<pair<string, string> > pairs;
 			t.convertToPairs(pairs);
 			for(pair<string, string> p : pairs)
@@ -83,27 +83,27 @@ bool featureTwo(string inputName, string outputName){
 				unordered_map<string, Hashtag*>::iterator it1 = allHashtags.find(p.first), it2 = allHashtags.find(p.second);
 				Hashtag *ht1, *ht2;
 				if(it1 == allHashtags.end()){
-					ht1 = new Hashtag(t.timestamp_ms, p.first);
+					ht1 = new Hashtag(t.timestamp, p.first);
 					allHashtags.insert(make_pair(p.first, ht1));
 				}
 				else
 					ht1 = it1->second;
 				if(it2 == allHashtags.end()){
-					ht2 = new Hashtag(t.timestamp_ms, p.second);
+					ht2 = new Hashtag(t.timestamp, p.second);
 					allHashtags.insert(make_pair(p.second, ht2));
 				}
 				else
 					ht2 = it2->second;
 
 				//update time
-				ht1->time = t.timestamp_ms;
-				ht2->time = t.timestamp_ms;
+				ht1->time = t.timestamp;
+				ht2->time = t.timestamp;
 				Edge* e = ht1->getEdge(ht2);
 				if(e != NULL){
-					e->updateTime(t.timestamp_ms);
+					e->updateTime(t.timestamp);
 					continue;
 				}
-				e = new Edge(t.timestamp_ms, ht1, ht2);
+				e = new Edge(t.timestamp, ht1, ht2);
 				allEdges.push_back(e);
 
 			}
@@ -117,7 +117,7 @@ bool featureTwo(string inputName, string outputName){
 //		for(Edge* e : allEdges)
 //			printf("#%s <-> #%s\n", e->hashtags[0]->text.c_str(), e->hashtags[1]->text.c_str());
 
-		maintainDataInWindow(t.timestamp_ms, allHashtags, allEdges);
+		maintainDataInWindow(t.timestamp, allHashtags, allEdges);
 		//compute degree
 		double degree =  0;
 		if(!allEdges.empty())

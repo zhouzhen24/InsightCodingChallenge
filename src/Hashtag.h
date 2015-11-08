@@ -17,21 +17,21 @@ using namespace std;
 struct Hashtag;
 
 struct Edge{
-	long int time;
+	time_t time;
 	vector<Hashtag*> hashtags;
 	~Edge();
-	Edge(long int t, Hashtag* ht1, Hashtag* ht2);
-	void updateTime(long int t){time = t;}
+	Edge(time_t t, Hashtag* ht1, Hashtag* ht2);
+	void updateTime(time_t t){time = t;}
 };
 
 
 struct Hashtag{
 	string text;
-	long int time;
+	time_t time;
 	unordered_set<Edge*> edges;
 	~Hashtag();
-	Hashtag(long int t, string message):time(t), text(message){}
-	void updateTime(long int t){time = t;}
+	Hashtag(time_t t, string message):time(t), text(message){}
+	void updateTime(time_t t){time = t;}
 	void addEdge(Edge* e);
 	void removeEdge(Edge* e);
 	Hashtag* getPair(Edge* e);

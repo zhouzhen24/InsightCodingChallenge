@@ -52,7 +52,7 @@ Edge::~Edge(){
 	}
 }
 
-Edge::Edge(long int t, Hashtag* ht1, Hashtag* ht2) : time(t){
+Edge::Edge(time_t t, Hashtag* ht1, Hashtag* ht2) : time(t){
 	hashtags.push_back(ht1);
 	hashtags.push_back(ht2);
 	ht1->addEdge(this);

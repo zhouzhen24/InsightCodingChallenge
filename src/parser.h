@@ -55,7 +55,7 @@ bool parser(string js, Tweet& tweet, string name1, string name2){
 }
 
 bool isUnicode (char c) {
-    return !(c >= 0 && c < 128);
+    return !(c >= 31 && c <= 127);
 }
 
 
