@@ -17,6 +17,7 @@ struct Tweet2{
 
 	long int timestamp_ms;
 	vector<string> hashtags;
+	string timestamp;
 	void convertToPairs(vector<pair<string, string> > &pairs){
 		for(size_t i = 0; i < hashtags.size(); i++)
 			for(size_t j = i + 1; j < hashtags.size(); j++)

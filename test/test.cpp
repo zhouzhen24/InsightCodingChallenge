@@ -196,21 +196,34 @@ TEST(TweetFeatureTwo, DISABLED_parser2){
 
 }
 
+TEST(FeatureTwo, getTimeStampFromString){
+	char* inputPath = "tweet_input/test1.txt";
+	ifstream input_file(inputPath);
+	assert(input_file);
+	string line;
+	if(getline(input_file, line)){
+		Document d;
+		d.Parse(line.c_str());
+		string time = d["created_at"].GetString();
+		dateToStamp(time);
+	}
+
+}
 
 
 int main(int argc, char** argv){
-//	::testing::InitGoogleTest(&argc, argv);
-//	return RUN_ALL_TESTS();
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 //	string inputName = "tweets.txt";
 //	string outputName = "ft1.txt";
 //	featureOne(inputName, outputName);
 //	return 0;
 
-		string inputName = "tweets.txt";
-		string outputName = "raw2.txt";
-		if(!featureTwo(inputName, outputName))
-			printf("Feature 2 failed\n");
-		return 0;
+//		string inputName = "tweets.txt";
+//		string outputName = "raw2.txt";
+//		if(!featureTwo(inputName, outputName))
+//			printf("Feature 2 failed\n");
+//		return 0;
 }
 
 

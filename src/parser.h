@@ -19,11 +19,14 @@
 
 using namespace rapidjson;
 
-void parser(string js, Tweet& tweet, string name1, string name2){
+bool parser(string js, Tweet& tweet, string name1, string name2){
 	Document d;
 	d.Parse(js.c_str());
 
-	assert(d.IsObject());
+	if(!d.IsObject()){
+		printf("Error: not valid JSON at : %s\n", js.c_str());
+		return false;
+	}
 
 
 
@@ -32,8 +35,10 @@ void parser(string js, Tweet& tweet, string name1, string name2){
 		tweet.name1 = name1;
 		tweet.value1 = d[name1.c_str()].GetString();
 	}
-	else
+	else{
 		tweet.value1.clear();
+		return false;
+	}
 
 	if(d.HasMember(name2.c_str())){
 		assert(d[name2.c_str()].IsString());
@@ -41,8 +46,12 @@ void parser(string js, Tweet& tweet, string name1, string name2){
 		tweet.name2 = name2;
 		tweet.value2 = d[name2.c_str()].GetString();
 	}
-	else
+	else{
 		tweet.value2.clear();
+		return false;
+	}
+
+	return true;
 }
 
 bool isUnicode (char c) {
