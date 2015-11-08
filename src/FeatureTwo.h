@@ -41,7 +41,8 @@ bool featureTwo(string inputName, string outputName){
 
 	ofstream output_file(outputName.c_str());
 	assert(output_file);
-
+	output_file.precision(2);
+	output_file << fixed;
 
 
 	for(int line_no = 1; getline(input_file, line); line_no++){
@@ -119,10 +120,12 @@ bool featureTwo(string inputName, string outputName){
 
 		maintainDataInWindow(t.timestamp, allHashtags, allEdges);
 		//compute degree
-		double degree =  0;
+		float degree =  0;
 		if(!allEdges.empty())
-			degree = (double)allHashtags.size() / (double)allEdges.size() / 2.0;
-		printf("%lu hashtags, %lu edges\nAverage degree : %f\n", allHashtags.size(), allEdges.size(), degree);
+			degree = (float)allHashtags.size() / (float)allEdges.size() / 2.0;
+        //round to hundredth
+        degree = float(int(degree * 100 + 0.5)) / 100;
+		printf("%lu hashtags, %lu edges\nAverage degree : %.2f\n", allHashtags.size(), allEdges.size(), degree);
 		output_file << degree << endl;
 	}
 	for(Edge* e : allEdges)
