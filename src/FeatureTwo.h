@@ -24,7 +24,6 @@ bool featureTwo(string inputName, string outputName){
 	inputName = "tweet_input/" + inputName;
 	outputName = "tweet_output/" + outputName;
 	string line;
-	Tweet2 t;
 	unordered_map<string, Hashtag*> allHashtags;
 	list<Edge*> allEdges;
 
@@ -50,29 +49,11 @@ bool featureTwo(string inputName, string outputName){
 //			break;
 //		printf("Line %5d\n", line_no);
 //		printf("line :%s\n", line.c_str());
-
-
+		Tweet2 t;
 		if(!parser2(line, t)){
 			printf("line %d: parser fail\n", line_no);
-			//continue;
+			continue;
 		}
-
-//		else if(t.hashtags.empty()){
-//			printf("line %d: no hashtags\n", line_no);
-////			continue;
-//		}
-//		//if only one hashtage
-//		else if(t.hashtags.size() == 1){
-//			string message = t.hashtags.front();
-//			if(allHashtags.find(message) != allHashtags.end())
-//				allHashtags[message]->updateTime(t.timestamp_ms);
-//			else{
-//				Hashtag* ht = new Hashtag(t.timestamp_ms, message);
-//				allHashtags.insert(make_pair(message, ht));
-//			}
-//			printf("#%s\n", message.c_str());
-//		}
-
 		//if we have edges
 		if(t.hashtags.size() > 1) {
 			vector<pair<string, string> > pairs;
@@ -110,13 +91,7 @@ bool featureTwo(string inputName, string outputName){
 			}
 
 		}
-		//printf("Line %d\n", line_no);
-//		printf("Hashtags: \n");
-//		for(unordered_map<string, Hashtag*>::iterator ht = allHashtags.begin(); ht != allHashtags.end(); ht++)
-//			printf("#%s ", ht->second->text.c_str());
-//		printf("\nEdges :\n");
-//		for(Edge* e : allEdges)
-//			printf("#%s <-> #%s\n", e->hashtags[0]->text.c_str(), e->hashtags[1]->text.c_str());
+
 
 		maintainDataInWindow(t.timestamp, allHashtags, allEdges);
 		//compute degree
@@ -125,7 +100,7 @@ bool featureTwo(string inputName, string outputName){
 			degree = (float)allHashtags.size() / (float)allEdges.size() / 2.0;
         //round to hundredth
         degree = float(int(degree * 100 + 0.5)) / 100;
-		printf("%lu hashtags, %lu edges\nAverage degree : %.2f\n", allHashtags.size(), allEdges.size(), degree);
+		//printf("%lu hashtags, %lu edges\nAverage degree : %.2f\n", allHashtags.size(), allEdges.size(), degree);
 		output_file << degree << endl;
 	}
 	for(Edge* e : allEdges)

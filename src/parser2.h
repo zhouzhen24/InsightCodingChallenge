@@ -32,18 +32,11 @@ bool parser2(string js, Tweet2& tweet){
 	Document d;
 	d.Parse(js.c_str());
 
-	assert(d.IsObject());
-
 	//add timestamp_ms
 	if(!d.IsObject() || !d.HasMember("created_at") || !d["created_at"].IsString() || !d.HasMember("entities")){
 		printf("Cannot read this Tweet\n");
 		return false;
 	}
-//	assert(d["timestamp_ms"].IsString());
-//	string created_time = d["timestamp_ms"].GetString();
-	//printf("timestamp_ms: %s\n", tmp.c_str());
-	//tweet.timestamp_ms = atol(tmp.c_str());
-
 
 	string created_time = d["created_at"].GetString();
 	tm *time_struct = new tm();
@@ -54,7 +47,6 @@ bool parser2(string js, Tweet2& tweet){
 		return false;
 	}
 
-
 	Value& hts = d["entities"]["hashtags"];
 
     for (SizeType i = 0; i < hts.Size(); i++){
@@ -63,8 +55,6 @@ bool parser2(string js, Tweet2& tweet){
         cleanEscape(ht);
 		tweet.hashtags.push_back(ht);
     }
-
-
 
 	return true;
 }
@@ -89,22 +79,11 @@ void maintainDataInWindow(time_t time, unordered_map<string, Hashtag*>& hashtags
 		else
 			it++;
 	}
-
 	//delete hashtags
-//	for(unordered_map<string, Hashtag*>::iterator it = hashtags.begin(); it != hashtags.end();){
-//		if((time - it->second->time) > window_size){
-//					delete (it->second);
-//					it = hashtags.erase(it);
-//		}
-//		else
-//			it++;
-//	}
-
 	for(string s : hashtagsToDeleted){
 		delete hashtags[s];
 		hashtags.erase(s);
 	}
-
 }
 
 

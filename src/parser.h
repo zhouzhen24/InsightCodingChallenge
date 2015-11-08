@@ -28,8 +28,6 @@ bool parser(string js, Tweet& tweet, string name1, string name2){
 		return false;
 	}
 
-
-
 	if(d.HasMember(name1.c_str())){
 		assert(d[name1.c_str()].IsString());
 		tweet.name1 = name1;
@@ -74,10 +72,6 @@ void cleanEscape(string& s){
 			s[i] = ' ';
 	}
 }
-
-
-
-
 
 
 #endif /* PARSER_H_ */
