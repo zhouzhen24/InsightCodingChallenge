@@ -10,6 +10,7 @@
 
 Hashtag::~Hashtag(){
 	for(Edge* e : edges){
+		printf("Warning delete edge from hashtag\n");
 		e->~Edge();
 	}
 }
@@ -48,11 +49,10 @@ Edge* Hashtag::getEdge(Hashtag* otherHt){
 Edge::~Edge(){
 	for(Hashtag* ht : hashtags){
 		ht->removeEdge(this);
-		delete ht;
 	}
 }
 
-Edge::Edge(long int t, Hashtag* ht1, Hashtag* ht2) : time(t){
+Edge::Edge(time_t t, Hashtag* ht1, Hashtag* ht2) : time(t){
 	hashtags.push_back(ht1);
 	hashtags.push_back(ht2);
 	ht1->addEdge(this);
