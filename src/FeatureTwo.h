@@ -89,7 +89,7 @@ bool featureTwo(string inputName, string outputName){
 		//compute degree
 		float degree =  0;
 		if(!allEdges.empty())
-			degree = (float)allHashtags.size() / (float)allEdges.size() / 2.0;
+			degree = (float)allEdges.size() * 2.0 / (float)allHashtags.size();
         //round to hundredth
         degree = float(int(degree * 100 + 0.5)) / 100;
 		printf("%lu hashtags, %lu edges\nAverage degree : %.2f\n", allHashtags.size(), allEdges.size(), degree);

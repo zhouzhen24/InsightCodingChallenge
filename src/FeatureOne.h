@@ -37,7 +37,7 @@ bool featureOne(string inputName, string outputName){
 	}
 
 	input_file.close();
-	output_file << "\n" << unicode_no << " tweets contained unicode.";
+	output_file << "\n" << unicode_no << " tweets contained unicode.\n";
 	output_file.close();
 	printf("End of Feature 1\n");
 	return true;
