@@ -25,9 +25,6 @@ bool featureTwo(string inputName, string outputName){
 	unordered_map<string, Hashtag*> allHashtags;
 	list<Edge*> allEdges;
 
-	ofstream error_file("error_log/f2_error_" + inputName);
-	assert(error_file);
-
 	inputName = "tweet_input/" + inputName;
 	outputName = "tweet_output/" + outputName;
 	ifstream input_file(inputName.c_str());
@@ -50,7 +47,6 @@ bool featureTwo(string inputName, string outputName){
 		if(!parser2(line, t)){
 			printf("line %d: Feature 2 parser fail!\n", line_no);
 			printf("JSON: %s\n", line.c_str());
-			error_file << line_no << " " << line << endl;
 			continue;
 		}
 		//if we have edges
