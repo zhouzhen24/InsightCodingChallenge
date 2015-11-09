@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include <assert.h>
 
 #include "Tweet.h"
